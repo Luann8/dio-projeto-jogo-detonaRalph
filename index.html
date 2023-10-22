@@ -2,8 +2,6 @@
 <style>
 @import url('./reset.css');
 
-/* IMPORTA A FONTE DO GOOGLE */
-
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;800&display=swap');
 
@@ -22,14 +20,11 @@ body {
 
 .container {
    height: 100vh;
-   background-image: url("C:/Users/luann/OneDrive/Área de Trabalho/Nova pasta/wall.png");
+   background-image: url("https://raw.githubusercontent.com/Luann8/dio-projeto-jogo-detonaRalph/main/img/wall.png?token=GHSAT0AAAAAACIQOS7WUSYPUVBCSCKD7JZQZJVGCCA");
    display: flex;
    flex-direction: column;
    align-items: center;
 }
-
-
-/***************** MENU ***********************/
 
 .menu {
    width: 100%;
@@ -55,10 +50,6 @@ body {
    gap: 10px;
 }
 
-
-
-/***************** PAINEL ***********************/
-
 .panel {
    margin-top: 50px;
    display: flex;
@@ -79,7 +70,7 @@ body {
 }
 
 .enemy {
-   background-image:url('C:/Users/luann/OneDrive/Área de Trabalho/Nova pasta/ralph.png');
+   background-image:url("https://raw.githubusercontent.com/Luann8/dio-projeto-jogo-detonaRalph/main/img/ralph.png?token=GHSAT0AAAAAACIQOS7WR4IFEVLOBAC5BN3UZJVGDTQ");
    background-size: cover;
 }
 
@@ -108,15 +99,13 @@ body {
    <link rel="stylesheet" href="./src/styles/main.css">
    
    <!-- icone -->
-   <link rel="shortcut icon" href="./src/images/favicon.jpg" type="image/x-icon">
+   <link rel="shortcut icon" href="https://raw.githubusercontent.com/Luann8/dio-projeto-jogo-detonaRalph/main/img/favicon.jpg?token=GHSAT0AAAAAACIQOS7WG5ORNXNYYBH6JA6QZJVGEDA" type="image/x-icon">
 
    <title>Detona Ralph</title>
 </head>
 <body>
 
    <div class="container">
-
-      <!---------- INICIO MENU ---------->
       <div class="menu">
          <div class="menu-time">
             <h2 class="titulo">Time left</h2>
@@ -129,14 +118,11 @@ body {
          </div>
 
          <div class="menu-lives">
-            <img src="C:\Users\luann\OneDrive\Área de Trabalho\Nova pasta\player.png" alt="Vidas" height="50px"/>
+            <img src="https://raw.githubusercontent.com/Luann8/dio-projeto-jogo-detonaRalph/main/img/player.png?token=GHSAT0AAAAAACIQOS7W6LBTJQJMVS2EJ4VUZJVGEYA" alt="Vidas" height="50px"/>
             <h2 id="life">3</h2>
          </div>
-      </div>
-      <!---------- FIM MENU ---------->
-
-
-      <!---------- INICIO PANEL ---------->
+      </div>MENU
+      
       <div class="panel">
          <div class="panel-row">
             <div class="square enemy" id="1"></div>
@@ -156,15 +142,11 @@ body {
             <div class="square" id="9"></div>
          </div>
       </div>
-      <!---------- FIM PANEL ---------->
 
       <button id="btn-continuar" class="btn-continuar" onclick="reiniciarJogo()" >Continuar</button>
    </div>
 
-   
-
-   <!-- Javascript-->
-   <script defer src="./src/scripts/engine.js"></script>
+      <script defer src="./src/scripts/engine.js"></script>
 </body>
 </html>
 <script>
@@ -190,23 +172,19 @@ const states = {
    }
 };
 
-// Função que reinicia o jogo
 function reiniciarJogo() {
-   // Configura o novo valor de tempo total
    states.values.timeTotal = 30;
    states.action.contador = setInterval(mudarTempo, 1000)
    states.action.enemy = setInterval(randomEnemy, 1000)
    mudarVida()
 }
 
-// Função que toca um som quando acerta o inimigo no jogo
 function tocarSom(nomeAudio) {
    let som = new Audio(`./src/audios/${nomeAudio}.m4a`);
    som.volume = 0.2
    som.play()
 }
 
-// Função que altera a vida no jogo
 function mudarVida() {
    states.view.life.innerText = states.values.lifeTotal--
    let vida = states.view.life.innerText
@@ -217,71 +195,53 @@ function mudarVida() {
    if (vida <= 0 && contador <= 0) {
       alert(`Você marcou ${pontos} pontos no total.\n Reinicie a página para tentar novamente`)
 
-      // Remove o botão de continuar
       btn.classList.remove('ativo')
 
-      // Mantém a vida zerada até reiniciar a página
       states.view.life.innerText = 0;
 
-      // Para a execução do SetInterval quando o contador chega a Zero
       clearInterval(states.action.contador)
       clearInterval(states.action.enemy)
    }
 }
 
-// Função que altera o tempo no jogo
 function mudarTempo() {
    states.view.time.innerText = states.values.timeTotal--
    let contador = states.view.time.innerText
    let btn = states.view.button
    btn.classList.remove('ativo')
 
-   // Verifica se o contador chegou a zero
    if (contador <= 0) {
 
-      // Mostra o botão continuar
       btn.classList.add('ativo')
 
-      // alert('Game Over')
-      // Para a execução do SetInterval quando o contador chega a Zero
       clearInterval(states.action.contador)
       clearInterval(states.action.enemy)
    }
 }
 
-// Função que cria o movimento do inimigo de forma aleatória
 function randomEnemy() {
-   // remove a classe enemy de dentro de todos os squares
    states.view.square.forEach((values) => {
       values.classList.remove('enemy')
    })
 
-   // Gera um número aleatório de 0 até 9
    let x = Math.floor((Math.random() * 9))
 
-   // Pega o square aleatóriamente e adiciona a classe Enemy
    let enemy = states.view.square[x]
    enemy.classList.add('enemy')
 
-   // Armazena a posição que o inimigo aparece
    states.values.position = enemy.id
 }
 
-// Função que faz marcar os pontos com o click do mouse
 function addListenerHitBox() {
 
    states.view.square.forEach((square) => {
       square.addEventListener('mousedown', () => {
-         // verifica se o id do click é igual a posição que o inimigo se encontra na tela
          if (square.id == states.values.position) {
 
-            // soma 1 ponto no total do score
             states.values.scoreTotal++
 
-            // altera o valor do html com o valor total do score
             states.view.score.textContent = states.values.scoreTotal
 
-            // reseta a posição do inimigo para que não tenha como ficar clicando e somando pontos no mesmo lugar
             states.values.position = null;
 
             tocarSom('hit')
@@ -291,7 +251,6 @@ function addListenerHitBox() {
 
 }
 
-// Função principal autoexecutável
 function main() {
    alert('ACERTE O ALVO PARA MARCAR PONTOS')
    addListenerHitBox()
